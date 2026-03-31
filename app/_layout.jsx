@@ -1,14 +1,8 @@
-import { StyleSheet, Text, View } from 'react-native'
-import { Slot } from 'expo-router'
+import "./global.css";
+import { Stack } from "expo-router";
 
 const RootLayout = () => {
-  return (
-    <>
-        <Text>Header</Text>
-        <Slot />
-        <Text>Footer</Text>
-    </>    
-  )
-}
+  return <Stack screenOptions={{ headerShown: false }} />;
+};
 
-export default RootLayout
+export default RootLayout;
