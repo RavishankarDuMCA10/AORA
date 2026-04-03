@@ -1,10 +1,16 @@
-import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native'
+import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 import { icons } from '../constants';
+// import { ResizeMode, Video } from "expo-av";
+import { useVideoPlayer, VideoView } from 'expo-video';
 
 const VideoCard = ({video: { title, thumbnail, video, creator: { username, avatar }}}) => {
 
     const [play, setPlay] = useState(false);
+    const player = useVideoPlayer(video, (player) => {
+        player.loop = true;
+        player.play();
+    });
     return (
         <View className="flex-col items-center px-4 mb-14">
             <View className="flex-row gap-3 items-start">
@@ -23,8 +29,13 @@ const VideoCard = ({video: { title, thumbnail, video, creator: { username, avata
                     <Image source={icons.menu} className="w-5 h-5" resizeMode='contain' />
                 </View>
             </View>   
-            {play ? (
-                <Text className="text-white">Playing</Text>
+            {play ? (                
+                <VideoView 
+                    style={styles.video} 
+                    player={player} 
+                    allowsFullscreen 
+                    allowsPictureInPicture 
+                />
             ) : (
                 <TouchableOpacity 
                 activeOpacity={0.7}
@@ -47,3 +58,9 @@ const VideoCard = ({video: { title, thumbnail, video, creator: { username, avata
 }
 
 export default VideoCard;
+
+
+const styles = StyleSheet.create({
+  video: { width: 350, height: 275 },
+  contentContainer: { flex: 1, padding: 10, alignItems: 'center' },
+});
